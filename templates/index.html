@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freizeitaktivitäten-Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+            padding: 10px 20px;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .loading-spinner {
+            width: 3rem;
+            height: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Freizeitaktivitäten-Finder</h1>
+            <p class="lead">Entdecke passende Freizeitaktivitäten in deiner Umgebung</p>
+        </div>
+        
+        <div class="form-container">
+            <form id="activityForm" action="/get_activities" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="location" class="form-label">Wo befindest du dich?</label>
+                        <input type="text" class="form-control" id="location" name="location" required placeholder="z.B. Berlin, München, Hamburg">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="preferences" class="form-label">Deine Interessen</label>
+                        <input type="text" class="form-control" id="preferences" name="preferences" placeholder="z.B. Sport, Kultur, Essen">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="weather" class="form-label">Aktuelles Wetter</label>
+                        <select class="form-select" id="weather" name="weather">
+                            <option value="">-- Bitte wählen --</option>
+                            <option value="sonnig">Sonnig</option>
+                            <option value="bewölkt">Bewölkt</option>
+                            <option value="regnerisch">Regnerisch</option>
+                            <option value="verschneit">Verschneit</option>
+                            <option value="windig">Windig</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="time_of_day" class="form-label">Tageszeit</label>
+                        <select class="form-select" id="time_of_day" name="time_of_day">
+                            <option value="">-- Bitte wählen --</option>
+                            <option value="morgens">Morgens</option>
+                            <option value="mittags">Mittags</option>
+                            <option value="nachmittags">Nachmittags</option>
+                            <option value="abends">Abends</option>
+                            <option value="nachts">Nachts</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="budget" class="form-label">Budget</label>
+                        <select class="form-select" id="budget" name="budget">
+                            <option value="">-- Bitte wählen --</option>
+                            <option value="niedrig">Niedrig</option>
+                            <option value="mittel">Mittel</option>
+                            <option value="hoch">Hoch</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h5>Filter (optional)</h5>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="filter_category" class="form-label">Kategorie</label>
+                        <input type="text" class="form-control" id="filter_category" name="filter_category" placeholder="z.B. Sport">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="filter_max_cost" class="form-label">Max. Preiskategorie</label>
+                        <select class="form-select" id="filter_max_cost" name="filter_max_cost">
+                            <option value="">Alle</option>
+                            <option value="€">€ (Günstig)</option>
+                            <option value="€€">€€ (Mittel)</option>
+                            <option value="€€€">€€€ (Teuer)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3 d-flex align-items-end">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="filter_family_friendly" name="filter_family_friendly">
+                            <label class="form-check-label" for="filter_family_friendly">
+                                Nur familienfreundliche Aktivitäten
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Aktivitäten finden</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner-border loading-spinner text-primary" role="status">
+                <span class="visually-hidden">Lädt...</span>
+            </div>
+            <p class="mt-2">Suche nach Aktivitäten... (Dies kann einige Sekunden dauern)</p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('activityForm').addEventListener('submit', function() {
+            document.getElementById('loadingIndicator').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
